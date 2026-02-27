@@ -1,12 +1,31 @@
+\"use client\";
+
+import { useState } from "react";
+
 export default function Home() {
+  const [isDark, setIsDark] = useState(false);
+
   return (
-    <div className="min-h-screen bg-zinc-50 font-sans text-zinc-900 dark:bg-black dark:text-zinc-50">
+    <div
+      className={`min-h-screen font-sans text-zinc-900 dark:text-zinc-50 ${
+        isDark ? "dark bg-black" : "bg-zinc-50"
+      }`}
+    >
       <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-10 px-6 py-16">
-        <header>
-          <h1 className="text-4xl font-semibold tracking-tight">Auth Flows</h1>
-          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-            Explore different ways users can sign in to your application.
-          </p>
+        <header className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-semibold tracking-tight">Auth Flows</h1>
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+              Explore different ways users can sign in to your application.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsDark((prev) => !prev)}
+            className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 shadow-sm transition hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+          >
+            {isDark ? "Light mode" : "Dark mode"}
+          </button>
         </header>
 
         <section className="grid gap-6 sm:grid-cols-2">
