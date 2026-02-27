@@ -11,6 +11,6 @@ export default function EmailPasswordClient({ user }: EmailPasswordProps) {
     <div className="text-sm text-zinc-700">
       {user ? `Signed in as ${user.email}` : "Not signed in"}
     </div>
-  );
+  )
 }
 
