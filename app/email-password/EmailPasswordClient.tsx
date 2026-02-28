@@ -32,7 +32,7 @@ export default function EmailPasswordClient({ user }: EmailPasswordProps) {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/welcome`,
+          emailRedirectTo: `${window.location.origin}/email-password`,
         }
        });
       setStatus( error ? error.message : "Check your inbox for confirmation");
