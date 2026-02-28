@@ -27,10 +27,11 @@ export type EmailPasswordFormData = {
 
 type EmailPasswordFormProps = {
   onSubmit: (data: EmailPasswordFormData) => void | Promise<void>;
+  onForgetPassword: (email: string) => void | Promise<void>;
   status: string | null;
 };
 
-export default function EmailPasswordForm({ onSubmit, status }: EmailPasswordFormProps) {
+export default function EmailPasswordForm({ onSubmit, onForgetPassword, status }: EmailPasswordFormProps) {
   const [mode, setMode] = useState<AuthMode>("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,6 +51,12 @@ export default function EmailPasswordForm({ onSubmit, status }: EmailPasswordFor
       }
     }
     await onSubmit({ mode, email, password });
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) return;
+    await onForgetPassword(email);
+    alert("Check you email for REset password link");
   };
 
   return (
@@ -140,7 +147,7 @@ export default function EmailPasswordForm({ onSubmit, status }: EmailPasswordFor
           {mode === "signin" &&
             <button
               type="button"
-              onClick={() => {}}
+              onClick={handleForgotPassword}
               className="cursor-pointer text-xs text-white/80 underline hover:text-white/90"
             >
               forgot password?
