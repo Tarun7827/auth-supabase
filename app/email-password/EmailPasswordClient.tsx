@@ -1,157 +1,56 @@
 "use client";
 
+import { AuthPageDescription } from "@/app/Components/AuthPageDescription";
+import { getSupabaseBrowserClient } from "@/lib/supabse/browser-client";
 import { User } from "@supabase/supabase-js";
+import type { EmailPasswordFormData } from "./EmailPasswordForm";
+import EmailPasswordForm from "./EmailPasswordForm";
 import { useState } from "react";
 
 type EmailPasswordProps = {
   user: User | null;
 };
 
-type Mode = "signup" | "signin";
-
-const PASSWORD_RULES = [
-  "Minimum 8 characters",
-  "At least 1 uppercase letter",
-  "At least 1 lowercase letter",
-  "At least 1 special character (!@#$%^&* etc.)",
-];
-
-function validatePassword(value: string): { valid: boolean; message?: string } {
-  if (value.length < 8) return { valid: false, message: "Password must be at least 8 characters" };
-  if (!/[A-Z]/.test(value)) return { valid: false, message: "Password must contain at least one uppercase letter" };
-  if (!/[a-z]/.test(value)) return { valid: false, message: "Password must contain at least one lowercase letter" };
-  if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(value)) return { valid: false, message: "Password must contain at least one special character" };
-  return { valid: true };
-}
-
 export default function EmailPasswordClient({ user }: EmailPasswordProps) {
-  const [mode, setMode] = useState<Mode>("signup");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [showRulesTooltip, setShowRulesTooltip] = useState(false);
+  const supabase = getSupabaseBrowserClient();
+  const [status, setStatus] = useState<string | null>(null);
 
-  const title = mode === "signup" ? "Create an account" : "Log In";
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setPasswordError(null);
+  async function handleSubmit({ mode, email, password }: EmailPasswordFormData) {
     if (mode === "signup") {
-      const result = validatePassword(password);
-      if (!result.valid) {
-        setPasswordError(result.message ?? "Invalid password");
-        return;
-      }
+      const { error } = await supabase.auth.signUp({ 
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/welcome`,
+        }
+       });
+      setStatus( error ? error.message : "Check your inbox for confirmation");
+    } else {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      setStatus( error ? error.message : "Successfully logged in" );
     }
-    // TODO: Wire up Supabase auth here
-    console.log(mode, { email, password });
   }
 
   return (
-    <div className="flex w-full justify-center">
-      <div className="max-w-lg w-full space-y-4 rounded-lg border border-zinc-600 bg-zinc-50 p-4 text-sm text-zinc-700">
-      {user && (
-        <div className="rounded-md bg-zinc-100 px-3 py-2 text-xs text-zinc-700">
-          Signed in as <span className="font-medium">{user.email}</span>
-        </div>
-      )}
-
-      <div className="flex items-center justify-between rounded-md bg-zinc-100 p-1 text-xs font-medium text-zinc-700">
-        <button
-          type="button"
-          onClick={() => setMode("signup")}
-          className={`flex-1 rounded-md px-3 py-1 transition ${
-            mode === "signup"
-              ? "bg-white text-zinc-900 shadow-sm"
-              : "text-zinc-500 hover:text-zinc-800"
-          }`}
-        >
-          Sign up
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode("signin")}
-          className={`flex-1 rounded-md px-3 py-1 transition ${
-            mode === "signin"
-              ? "bg-white text-zinc-900 shadow-sm"
-              : "text-zinc-500 hover:text-zinc-800"
-          }`}
-        >
-          Log in
-        </button>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <h2 className="text-base font-semibold text-zinc-700">{title}</h2>
-
-        <div className="space-y-1.5">
-          <label className="block text-xs font-medium text-zinc-700">
-            Email
-          </label>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none ring-offset-0 focus:border-zinc-500 focus:ring-2 focus:ring-zinc-300"
-            placeholder="you@example.com"
-          />
-        </div>
-
-        <div className="space-y-1.5">
-          <div className="flex items-center gap-1.5">
-            <label className="block text-xs font-medium text-zinc-700">
-              Password
-            </label>
-            <div
-              className="relative"
-              onMouseEnter={() => setShowRulesTooltip(true)}
-              onMouseLeave={() => setShowRulesTooltip(false)}
-            >
-              <button
-                type="button"
-                className="inline-flex h-4 w-4 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-200 hover:text-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-400"
-                aria-label="Password rules"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 12H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clipRule="evenodd" />
-                </svg>
-              </button>
-              {showRulesTooltip && (
-                <div className="absolute left-0 top-full z-10 mt-1 w-56 rounded-md border border-zinc-200 bg-white px-3 py-2 text-xs font-normal text-zinc-700 shadow-lg">
-                  <p className="mb-1.5 font-semibold text-zinc-900">Password must have:</p>
-                  <ul className="list-inside list-disc space-y-0.5">
-                    {PASSWORD_RULES.map((rule) => (
-                      <li key={rule}>{rule}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+    <AuthPageDescription
+      title="Email + Password"
+      intro="Classic credentials—users enter details, Supabase secures the rest while getSession + onAuthStateChange keep the UI live."
+      steps={[
+        "Toggle between sign up and sign in.",
+        "Submit to watch the session card refresh instantly.",
+        "Sign out to reset the listener.",
+      ]}
+    >
+      <div className="flex max-w-full justify-center">
+        <div className="rounded-[32px] w-full border border-white/10 bg-white/5 p-8 shadow-[0_25px_70px_rgba(2,6,23,0.65)] backdrop-blur">
+          {user && (
+            <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/90 backdrop-blur">
+              Signed in as <span className="font-medium text-white">{user.email}</span>
             </div>
-          </div>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setPasswordError(null);
-            }}
-            className={`w-full rounded-md border px-3 py-2 text-sm outline-none ring-offset-0 focus:ring-2 focus:ring-zinc-300 ${passwordError ? "border-red-500 focus:border-red-500 focus:ring-red-200" : "border-zinc-300 focus:border-zinc-500"}`}
-            placeholder="••••••••"
-          />
-          {passwordError && <p className="text-xs text-red-600">{passwordError}</p>}
+          )}
+          {!user && <EmailPasswordForm onSubmit={handleSubmit} status = {status} />}
         </div>
-
-        <button
-          type="submit"
-          className="mt-2 w-full rounded-md bg-zinc-900 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
-        >
-          {mode === "signup" ? "Create account" : "Log in"}
-        </button>
-      </form>
       </div>
-    </div>
+    </AuthPageDescription>
   );
 }
-
