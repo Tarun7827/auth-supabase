@@ -54,33 +54,31 @@ export default function EmailPasswordForm({ onSubmit, status }: EmailPasswordFor
 
   return (
     <>
-      <div className="flex items-center justify-between rounded-md bg-zinc-100 p-1 text-xs font-medium text-zinc-700">
+      <div className="flex items-center justify-between rounded-md border-1 border-zinc-100 p-1 text-xs font-medium text-zinc-700">
         <button
           type="button"
           onClick={() => setMode("signup")}
-          className={`flex-1 rounded-md px-3 py-1 transition ${
-            mode === "signup"
-              ? "bg-white text-zinc-900 shadow-sm"
-              : "text-zinc-500 hover:text-zinc-800"
-          }`}
+          className={`flex-1 rounded-md px-4 py-1 transition ${mode === "signup"
+                      ? "bg-emerald-700 text-white shadow shadow-emerald-500/20"
+                      : "text-slate-400 hover:bg-emerald-500/30"
+                      }`}
         >
           Sign up
         </button>
         <button
           type="button"
           onClick={() => setMode("signin")}
-          className={`flex-1 rounded-md px-3 py-1 transition ${
-            mode === "signin"
-              ? "bg-white text-zinc-900 shadow-sm"
-              : "text-zinc-500 hover:text-zinc-800"
-          }`}
+         className={`flex-1 rounded-md px-4 py-1 transition ${mode === "signin"
+                      ? "bg-emerald-700 text-white shadow shadow-emerald-500/20"
+                      : "text-slate-400 hover:bg-emerald-500/30"
+                      }`}
         >
           Log in
         </button>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <h2 className="text-base font-semibold text-white/90">{title}</h2>
+        <h2 className="text-base mt-4 font-semibold text-white/90">{title}</h2>
 
         <div className="space-y-1.5">
           <label className="block text-xs font-medium text-white/90">
@@ -139,11 +137,20 @@ export default function EmailPasswordForm({ onSubmit, status }: EmailPasswordFor
             placeholder="••••••••"
           />
           {passwordError && <p className="text-xs text-red-600">{passwordError}</p>}
+          {mode === "signin" &&
+            <button
+              type="button"
+              onClick={() => {}}
+              className="cursor-pointer text-xs text-white/80 underline hover:text-white/90"
+            >
+              forgot password?
+            </button>
+          }
         </div>
 
         <button
           type="submit"
-          className="mt-2 w-full rounded-md bg-zinc-900 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
+          className="mt-2 w-full rounded-md bg-emerald-700 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
         >
           {mode === "signup" ? "Create account" : "Log in"}
         </button>
