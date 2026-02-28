@@ -6,7 +6,10 @@ export default async function EmailPasswordPage(){
     const {
         data: { user},
     } = await supabase.auth.getUser();
-    console.log({user});
  
-    return  <EmailPasswordClient user={user}/>
+    return (
+      <div className="min-h-screen h-screen flex items-center justify-center bg-red-900">
+        <EmailPasswordClient user={user} />
+      </div>
+    );
 }
