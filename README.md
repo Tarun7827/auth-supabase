@@ -1,4 +1,7 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+The Authentication project demonstrate the SignUp and SignIn flow using Email Address or Google Auth Login.
+
 This project is deployed on Netlify. Click on the link and check the live demo.
 
 Live Demo: https://authentication-demo-nextjs.netlify.app/
