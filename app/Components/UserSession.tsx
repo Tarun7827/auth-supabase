@@ -17,7 +17,7 @@ export default function UserSession({ user }: UserSessionProps) {
     : "—";
 
   return (
-    <section className={`rounded-[32px] ${user ? `h-full` : `h-max`} border border-white/10 bg-white/5 p-8 shadow-[0_25px_70px_rgba(2,6,23,0.65)] backdrop-blur`}>
+    <section>
       <p className="text-lg font-medium text-white/90">Session details</p>
       {!user && (
         <p className="mt-5 text-sm text-slate-400">
