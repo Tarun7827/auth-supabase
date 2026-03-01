@@ -40,7 +40,6 @@ export default function Home() {
         <section className="grid gap-6 sm:grid-cols-2 mx-10 gap-10">
           {authFlows.map((flow) => (
             <div key={flow.id}>
-              {"href" in flow ? (
                 <Link
                   href={flow.href}
                   className="flex h-full flex-col rounded-2xl border border-zinc-200 bg-white-500 p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2"
@@ -54,23 +53,7 @@ export default function Home() {
                       <li key={step}>• {step}</li>
                     ))}
                   </ul>
-                </Link>
-              ) : (
-                <button
-                  type="button"
-                  className="flex h-full w-full flex-col rounded-2xl border border-zinc-200 bg-white-500 p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2"
-                >
-                  <h2 className="mt-1 text-lg font-semibold">{flow.title}</h2>
-                  <p className="mt-2 text-sm text-zinc-600">
-                    {flow.description}
-                  </p>
-                  <ul className="mt-3 space-y-1 text-sm text-zinc-700">
-                    {flow.steps.map((step) => (
-                      <li key={step}>• {step}</li>
-                    ))}
-                  </ul>
-                </button>
-              )}
+                </Link> 
             </div>
           ))}
         </section>
