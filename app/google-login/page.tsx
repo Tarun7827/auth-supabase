@@ -19,7 +19,7 @@ export default async function GoogleLoginPage(){
               "Sign out to reset the listener.",
             ]}
           >
-            <GoogleLoginClient/>
+            <GoogleLoginClient user = {user}/>
         </AuthPageDescription>
       </div>
     );
