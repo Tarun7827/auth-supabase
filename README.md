@@ -1,7 +1,7 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 This project is deployed on Netlify. Click on the link and check the live demo.
 
-Live Demo: [https://authentication-demo-nextjs.netlify.app/][https://authentication-demo-nextjs.netlify.app/]
+Live Demo: https://authentication-demo-nextjs.netlify.app/
 
 ## Getting Started
 
