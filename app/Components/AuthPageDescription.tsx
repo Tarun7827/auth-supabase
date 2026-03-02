@@ -21,7 +21,7 @@ export function AuthPageDescription({
 
         <main className="mx-auto w-full px-6 py-12">
             <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-            <section className="rounded-[32px] h-full border border-white/10 bg-white/5 p-8 shadow-[0_25px_70px_rgba(2,6,23,0.65)] backdrop-blur">
+            <section className="rounded-[32px] h-full border border-white/10 bg-white/5 p-8 shadow-[0_25px_70px_rgba(2,6,23,0.65)]">
                 <p className="text-lg font-medium text-white/90">{intro}</p>
                 <ol className="mt-5 list-decimal space-y-2 pl-5 text-sm text-slate-300">
                 {steps.map((step) => (
