@@ -2,6 +2,15 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 The Authentication project demonstrate the SignUp and SignIn flow using Email Address or Google Auth Login.
 
+## Tech stack
+
+- **Data**: PostgreSQL managed by [Supabase](https://supabase.io) (awesome real-time API).
+- **Front-end**: React + [Next.js App Router](https://nextjs.org/docs/app).
+- **UI**: Tailwind CSS with custom components.
+- **Auth**: Supabase Auth (email/password and Google OAuth).
+- **State management**: Redux Toolkit + React Redux for client-side user session.
+- **Hosting**: Netlify.
+
 This project is deployed on Netlify. Click on the link and check the live demo.
 
 Live Demo: https://authentication-demo-nextjs.netlify.app/
